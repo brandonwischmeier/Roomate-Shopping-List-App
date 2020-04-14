@@ -26,3 +26,6 @@ git clone https://github.com/brandonwischmeier/RoommateShopping.git
 
 * **Brandon Wischmeier** - [brandonwischmeier](https://github.com/brandonwischmeier)
 * **Megan Schmidt** - [megschmidt](https://github.com/megschmidt)
+
+#### Useful Link
+* [Compilation of resources to develop project](https://docs.google.com/document/d/1zNGWhdVb-QSYfsH3rJoUbsPUhoHKkYOaGiv9sXI-REY/edit?usp=sharing)
