@@ -22,3 +22,6 @@ User Stories
 2.5 As a registered user, I want to be able to settle the cost and view the total amounts spent by each roommate.
   2.5.1 Acceptance Test 1: Given that the user is logged in, when they settle the cost, the app should calculate the total amounts spent 
   by each roommate and display accordingly.
+  
+2.6 As a registered user, I want to be able to log out of the app.
+  2.6.1 Acceptance Test 1: Given that the user is logged in, the app should log them out of the app and display accordingly.
