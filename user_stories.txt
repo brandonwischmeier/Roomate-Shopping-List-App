@@ -1,0 +1,24 @@
+User Stories
+
+
+1.1 As a new user, I want to be able to register with a username and password.
+  1.1.1 Acceptance Test 1: Given that the user enters a valid email, the database should store the username and password for future use.
+  
+  
+2.1 As a registered user, I want to be able to log in with a username and password.
+  2.1.1 Acceptance Test 1: Given that the user correctly enters a registered username and password, the app should update accordingly 
+  to allow them to use features.
+  
+2.2 As a registered user, I want to be able to add an item to the shopping list.
+  2.2.1 Acceptance Test 1: Given that the user is logged in, the shopping list should be updated with their entry.
+  
+2.3 As a registered user, I want to be able to view my shopping list.
+  2.3.1 Acceptance Test 1: Given that the user is logged in, the app should display the shopping list appropriately.
+  
+2.4 As a registered user, I want to be able to mark an item as purchased and enter its price.
+  2.4.1 Acceptance Test 1: Given that the user is logged in, the app should display the item as purchased and save the price and 
+  status in the database.
+  
+2.5 As a registered user, I want to be able to settle the cost and view the total amounts spent by each roommate.
+  2.5.1 Acceptance Test 1: Given that the user is logged in, when they settle the cost, the app should calculate the total amounts spent 
+  by each roommate and display accordingly.
