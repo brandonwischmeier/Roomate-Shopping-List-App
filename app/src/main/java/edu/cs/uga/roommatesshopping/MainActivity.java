@@ -3,7 +3,6 @@ package edu.cs.uga.roommatesshopping;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,17 +11,19 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import edu.cs.uga.roommatesshopping.databinding.ActivityMainBinding;
+
 public class MainActivity extends AppCompatActivity {
 
-    private Button signOutBtn;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        signOutBtn = findViewById(R.id.signOutBtn);
-        signOutBtn.setOnClickListener(new View.OnClickListener() {
+        binding.signOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signOut();
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                       signOutIntent();
+                        signOutIntent();
                     }
                 });
     }
@@ -53,17 +54,4 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    /**
-     * Completely delete user's account
-     */
-    public void deleteAccount() {
-        AuthUI.getInstance()
-                .delete(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // TODO
-                    }
-                });
-    }
 }
