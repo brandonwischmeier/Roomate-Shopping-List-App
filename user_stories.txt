@@ -1,9 +1,7 @@
 User Stories
 
-
 1.1 As a new user, I want to be able to register with a username and password.
   1.1.1 Acceptance Test 1: Given that the user enters a valid email, the database should store the username and password for future use.
-  
   
 2.1 As a registered user, I want to be able to log in with a username and password.
   2.1.1 Acceptance Test 1: Given that the user correctly enters a registered username and password, the app should update accordingly 
@@ -25,3 +23,7 @@ User Stories
   
 2.6 As a registered user, I want to be able to log out of the app.
   2.6.1 Acceptance Test 1: Given that the user is logged in, the app should log them out of the app and display accordingly.
+
+2.7 As a registered user, I want to be able to message my roommate through the app
+  2.7.1 Acceptance Test 1: Given that the user is logged in, the app should transmit messages between registered users
+  2.7.2 Acceptance Test 2: Messages should persist across the entire lifespan of the app
