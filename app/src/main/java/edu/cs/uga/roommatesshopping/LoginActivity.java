@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
+                        .setTheme(R.style.AppTheme)
                         .setLogo(R.drawable.handshake)
                         .build(), SIGN_IN_REQUEST_CODE);
     }
