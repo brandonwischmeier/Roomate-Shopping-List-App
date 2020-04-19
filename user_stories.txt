@@ -2,28 +2,43 @@ User Stories
 
 1.1 As a new user, I want to be able to register with a username and password.
   1.1.1 Acceptance Test 1: Given that the user enters a valid email, the database should store the username and password for future use.
+  1.1.1 Failure Test 1: The database does not store the username and password.
   
 2.1 As a registered user, I want to be able to log in with a username and password.
   2.1.1 Acceptance Test 1: Given that the user correctly enters a registered username and password, the app should update accordingly 
   to allow them to use features.
+  2.1.1 Failure Test 1: The app does not retrieve user information upon correct entry of username and password.
+  2.1.2 Failure Test 2: The app allows the user to log in without proper username and password combination.
   
 2.2 As a registered user, I want to be able to add an item to the shopping list.
   2.2.1 Acceptance Test 1: Given that the user is logged in, the shopping list should be updated with their entry.
+  2.2.1 Failure Test 1: The app does not store the item in the database.
+  2.2.3 Failure Test 2: The app allows entry without logging in.
   
 2.3 As a registered user, I want to be able to view my shopping list.
   2.3.1 Acceptance Test 1: Given that the user is logged in, the app should display the shopping list appropriately.
+  2.3.1 Failure Test 1: The app does not display the shopping list.
+  2.3.2 Failure Test 2: The app displays the shopping list without logging in.
   
 2.4 As a registered user, I want to be able to mark an item as purchased and enter its price.
   2.4.1 Acceptance Test 1: Given that the user is logged in, the app should display the item as purchased and save the price and 
   status in the database.
+  2.4.1 Failure Test 1: The app does not save the item as purchased or its price.
+  2.4.2 Failure Test 2: The app allows marking purchases without logging in.
   
 2.5 As a registered user, I want to be able to settle the cost and view the total amounts spent by each roommate.
   2.5.1 Acceptance Test 1: Given that the user is logged in, when they settle the cost, the app should calculate the total amounts spent 
   by each roommate and display accordingly.
+  2.5.1 Failure Test 1: The user is unable to view the total amounts spent by each roommate.
+  2.5.2 Failure Test 2: The user is able to view total amounts without logging in.
   
 2.6 As a registered user, I want to be able to log out of the app.
   2.6.1 Acceptance Test 1: Given that the user is logged in, the app should log them out of the app and display accordingly.
-
+  2.6.1 Failures Test 1: The user is unable to log out of the app or their login credentials are remembered.
+  
 2.7 As a registered user, I want to be able to message my roommate through the app
   2.7.1 Acceptance Test 1: Given that the user is logged in, the app should transmit messages between registered users
   2.7.2 Acceptance Test 2: Messages should persist across the entire lifespan of the app
+  2.7.1 Failure Test 1: Messages are not sent to the roommate.
+  2.7.2 Failure Test 2: The user is able to message without logging in.
+  2.7.3 Failure Test 3: Messages do not persist across the entire lifespan of the app.
