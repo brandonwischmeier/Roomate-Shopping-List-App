@@ -1,4 +1,4 @@
-package edu.cs.uga.roommatesshopping;
+package edu.cs.uga.roommatesshopping.activity;
 
 import android.os.Bundle;
 
@@ -7,6 +7,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import edu.cs.uga.roommatesshopping.R;
 import edu.cs.uga.roommatesshopping.databinding.ActivityMainBinding;
 
 // This class facilitates the Navigation component

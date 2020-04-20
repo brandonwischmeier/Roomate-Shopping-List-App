@@ -1,4 +1,4 @@
-package edu.cs.uga.roommatesshopping;
+package edu.cs.uga.roommatesshopping.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
+
+import edu.cs.uga.roommatesshopping.R;
 
 public class LoginActivity extends AppCompatActivity {
 

@@ -1,8 +1,10 @@
-package edu.cs.uga.roommatesshopping;
+package edu.cs.uga.roommatesshopping.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import edu.cs.uga.roommatesshopping.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package edu.cs.uga.roommatesshopping;
+package edu.cs.uga.roommatesshopping.adapter;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,7 +29,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
     private ArrayList<String> shoppingListNames;
 
-    ShoppingListAdapter(ArrayList<String> shoppingListNames) {
+    public ShoppingListAdapter(ArrayList<String> shoppingListNames) {
         this.shoppingListNames = shoppingListNames;
     }
 
