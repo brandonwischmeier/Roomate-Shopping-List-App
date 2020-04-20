@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Roommate Shopping</string>
+    <string name="enter_message">Enter message</string>
+    <string name="send">SEND</string>
+    <string name="new_shopping_list">New shopping list</string>
+    <string name="settle_up">Settle up</string>
 </resources>

@@ -5,8 +5,8 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimaryDark">#324e7b</item>
         <item name="colorPrimary">#86a6df</item>
-        <item name="colorPrimaryVariant">#324e7b</item>
+        <item name="colorPrimaryVariant">#5068a9</item>
         <item name="backgroundColor">#f8f8f8</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
-
 </resources>
