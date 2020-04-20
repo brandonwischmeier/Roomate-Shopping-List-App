@@ -1,5 +1,10 @@
 <resources>
-    <string name="app_name">RoommatesShopping</string>
+    <string name="app_name">Roommate Shopping</string>
+    <string name="enter_message">Enter message</string>
+    <string name="send">SEND</string>
+    <string name="new_shopping_list">New shopping list</string>
+    <string name="settle_up">Settle up</string>
+
     <string name="title_activity_navigation_drawer">NavigationDrawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -15,4 +20,7 @@
     <string name="menu_slideshow">Slideshow</string>
 
     <string name="home_second">Home Second</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
