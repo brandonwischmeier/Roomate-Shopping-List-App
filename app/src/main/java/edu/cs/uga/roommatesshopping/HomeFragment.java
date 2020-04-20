@@ -48,10 +48,6 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
-    private void getRecyclerView() {
-
-    }
-
     private ArrayList<String> generateFakeValues() {
         ArrayList<String> values = new ArrayList<>();
         values.add("Shopping list 1");
