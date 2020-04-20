@@ -1,4 +1,4 @@
-package edu.cs.uga.roommatesshopping;
+package edu.cs.uga.roommatesshopping.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 
+import edu.cs.uga.roommatesshopping.activity.LoginActivity;
 import edu.cs.uga.roommatesshopping.databinding.FragmentAccountBinding;
 
 

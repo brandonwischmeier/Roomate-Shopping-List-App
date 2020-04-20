@@ -1,4 +1,4 @@
-package edu.cs.uga.roommatesshopping;
+package edu.cs.uga.roommatesshopping.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,12 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.ArrayList;
 
+import edu.cs.uga.roommatesshopping.R;
+import edu.cs.uga.roommatesshopping.adapter.ShoppingListAdapter;
 import edu.cs.uga.roommatesshopping.databinding.FragmentHomeBinding;
 
 
 public class HomeFragment extends Fragment {
 
-    private FragmentHomeBinding homeBinding;
+    private FragmentHomeBinding binding;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -29,11 +31,11 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        homeBinding = FragmentHomeBinding.inflate(inflater, container, false);
-        homeBinding.recyclerviewShoppingLists.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding.recyclerviewShoppingLists.setLayoutManager(new LinearLayoutManager(getContext()));
         ShoppingListAdapter adapter = new ShoppingListAdapter(generateFakeValues());
-        homeBinding.recyclerviewShoppingLists.setAdapter(adapter);
-        return homeBinding.getRoot();
+        binding.recyclerviewShoppingLists.setAdapter(adapter);
+        return binding.getRoot();
     }
 
     @Override
@@ -46,6 +48,12 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     private ArrayList<String> generateFakeValues() {
