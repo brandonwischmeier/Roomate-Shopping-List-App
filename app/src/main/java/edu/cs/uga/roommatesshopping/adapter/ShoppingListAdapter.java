@@ -15,11 +15,9 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
     private static final String TAG = "ShoppingListAdapter";
 
-
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    static class MyViewHolder extends RecyclerView.ViewHolder {
 
         ListItemBinding listItemBinding;
-
 
         MyViewHolder(ListItemBinding binding) {
             super(binding.getRoot());

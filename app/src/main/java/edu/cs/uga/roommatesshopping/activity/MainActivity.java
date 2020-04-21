@@ -23,14 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
         NavController controller = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(binding.bottomNav, controller);
-
-        /*
-            DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-
-            AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph())
-                .setDrawerLayout(drawerLayout)
-                .build();
-         */
     }
 
 }
