@@ -9,13 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import edu.cs.uga.roommatesshopping.R;
+import edu.cs.uga.roommatesshopping.pojo.ShoppingItem;
+
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class ItemEntryFragment extends Fragment {
     EditText editText;
@@ -32,12 +38,7 @@ public class ItemEntryFragment extends Fragment {
         editText = v.findViewById(R.id.editText);
         button = v.findViewById(R.id.button);
         button.setOnClickListener(new clickListener());
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("shoppingItems");
         return v;
-
     }
 
     private class clickListener implements View.OnClickListener
@@ -45,6 +46,30 @@ public class ItemEntryFragment extends Fragment {
         @Override
         public void onClick(View v) {
             String itemText = editText.getText().toString();
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("shoppingItems");
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            final ShoppingItem shoppingItem = new ShoppingItem(itemText, 0.00, currentUser, null, false);
+            myRef.push().setValue( shoppingItem )
+                    .addOnSuccessListener( new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Show a quick confirmation
+                            Toast.makeText(getActivity().getApplicationContext(), "Shopping List Item Created: " + shoppingItem.getName(),
+                                    Toast.LENGTH_SHORT).show();
+
+                            // Clear the EditTexts for next use.
+                            editText.setText("");
+                        }
+                    })
+                    .addOnFailureListener( new OnFailureListener() {
+                        @Override
+                        public void onFailure(Exception e) {
+                            Toast.makeText(getActivity().getApplicationContext(), "Failed to create shopping list item " + shoppingItem.getName(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
     }
 }

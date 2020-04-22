@@ -1,17 +1,18 @@
 package edu.cs.uga.roommatesshopping.pojo;
 
 import com.firebase.ui.auth.data.model.User;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ShoppingItem {
     private String name;
     private double price;
-    private User enteredUser;
-    private User purchasedUser;
+    private FirebaseUser enteredUser;
+    private FirebaseUser purchasedUser;
     private boolean purchased;
 
     public ShoppingItem()
     {}
-    public ShoppingItem(String name, double price, User enteredUser, User purchasedUser, boolean purchased)
+    public ShoppingItem(String name, double price, FirebaseUser enteredUser, FirebaseUser purchasedUser, boolean purchased)
     {
         this.name = name;
         this.price = price;
@@ -27,11 +28,11 @@ public class ShoppingItem {
     {
         return price;
     }
-    public User getPurchasedUser()
+    public FirebaseUser getPurchasedUser()
     {
         return purchasedUser;
     }
-    public User getEnteredUser()
+    public FirebaseUser getEnteredUser()
     {
         return enteredUser;
     }
