@@ -1,7 +1,6 @@
 package edu.cs.uga.roommatesshopping.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +23,6 @@ import edu.cs.uga.roommatesshopping.R;
 import edu.cs.uga.roommatesshopping.adapter.MessageAdapter;
 import edu.cs.uga.roommatesshopping.databinding.FragmentChatBinding;
 import edu.cs.uga.roommatesshopping.pojo.Message;
-
-// TODO: Prevent page from refreshing to top after clicking send
 
 /**
  * Fragment that controls chat functionality
@@ -65,8 +62,9 @@ public class ChatFragment extends Fragment {
             }
         });
 
-       // LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        binding.recyclerviewMessageList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setStackFromEnd(true);
+        binding.recyclerviewMessageList.setLayoutManager(layoutManager);
 
         setChatListener();
 
