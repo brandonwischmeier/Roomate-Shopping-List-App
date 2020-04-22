@@ -23,6 +23,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:background="@drawable/received_msg"
+        android:maxWidth="240dp"
         android:padding="10dp"
         android:textColor="#ffffff"
         android:textSize="14sp"

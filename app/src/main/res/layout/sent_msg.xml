@@ -13,11 +13,12 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/sent_msg"
+        android:maxWidth="240dp"
         android:padding="10dp"
         android:textColor="#ffffff"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/name"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Sent message" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

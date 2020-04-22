@@ -26,7 +26,6 @@ import edu.cs.uga.roommatesshopping.databinding.FragmentChatBinding;
 import edu.cs.uga.roommatesshopping.pojo.Message;
 
 // TODO: Prevent page from refreshing to top after clicking send
-// TODO: Allow text to wrap instead of overflowing page
 
 /**
  * Fragment that controls chat functionality
@@ -54,7 +53,6 @@ public class ChatFragment extends Fragment {
         // store root view
         View view = binding.getRoot();
 
-        // had to instantiate this recyclerview bc of a weird error with view binding
         recyclerView = view.findViewById(R.id.recyclerview_message_list);
 
         // get instance of firebase database node "message"
@@ -67,8 +65,8 @@ public class ChatFragment extends Fragment {
             }
         });
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        binding.recyclerviewMessageList.setLayoutManager(layoutManager);
+       // LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        binding.recyclerviewMessageList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         setChatListener();
 
@@ -95,9 +93,6 @@ public class ChatFragment extends Fragment {
                     messageArrayList.add(message);
                 }
                 adapter = new MessageAdapter(messageArrayList);
-
-                // binding equals null on new sign in which is causing error
-                //binding.recyclerviewMessageList.setAdapter(adapter);
                 recyclerView.setAdapter(adapter);
             }
 
@@ -119,9 +114,6 @@ public class ChatFragment extends Fragment {
                 binding.edittextChatbox.getText().toString(),
                 getFirebaseUserName());
 
-        Log.d(TAG, "onClick: " + binding.edittextChatbox.getText().toString() + "/n"
-                + getFirebaseUserName());
-
         if (!binding.edittextChatbox.getText().toString().equals("")) {
             databaseReference.push().setValue(message);
         }
@@ -134,7 +126,6 @@ public class ChatFragment extends Fragment {
     Returns the current user's id
      */
     private String getFirebaseUserId() {
-        Log.d(TAG, "getFirebaseUserId: " + FirebaseAuth.getInstance().getCurrentUser().getUid());
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
@@ -142,7 +133,6 @@ public class ChatFragment extends Fragment {
     Returns the current user's name
      */
     private String getFirebaseUserName() {
-        Log.d(TAG, "getFirebaseUserName: " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
         return FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
     }
 }
