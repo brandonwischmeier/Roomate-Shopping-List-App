@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import edu.cs.uga.roommatesshopping.R;
 import edu.cs.uga.roommatesshopping.pojo.ShoppingItem;
+import edu.cs.uga.roommatesshopping.pojo.UserPair;
 
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
@@ -46,11 +47,11 @@ public class ItemEntryFragment extends Fragment {
         @Override
         public void onClick(View v) {
             String itemText = editText.getText().toString();
+            final ShoppingItem shoppingItem = new ShoppingItem(itemText, 0.00, new UserPair(), false);
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("shoppingItems");
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
-            FirebaseUser currentUser = mAuth.getCurrentUser();
-            final ShoppingItem shoppingItem = new ShoppingItem(itemText, 0.00, currentUser, null, false);
+            DatabaseReference myRef = database.getReference("shoppingItems");
+
             myRef.push().setValue( shoppingItem )
                     .addOnSuccessListener( new OnSuccessListener<Void>() {
                         @Override
