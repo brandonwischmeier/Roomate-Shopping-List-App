@@ -22,12 +22,15 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import edu.cs.uga.roommatesshopping.R;
+import edu.cs.uga.roommatesshopping.adapter.SettleTheCostAdapter;
 import edu.cs.uga.roommatesshopping.pojo.ShoppingItem;
+import edu.cs.uga.roommatesshopping.pojo.UserPair;
 
 
 public class SettleTheCostFragment extends Fragment {
     ArrayList shoppingItemList;
     RecyclerView recyclerView;
+    private RecyclerView.Adapter recyclerAdapter;
     RecyclerView.LayoutManager layoutManager;
     public static final String DEBUG_TAG = "SettleTheCostFragment";
     public SettleTheCostFragment() {
@@ -40,7 +43,7 @@ public class SettleTheCostFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-
+        //final SettleTheCostAdapter[] recyclerAdapter;
 
         // use a linear layout manager for the recycler view
 
@@ -52,6 +55,7 @@ public class SettleTheCostFragment extends Fragment {
         recyclerView = (RecyclerView) v.findViewById( R.id.recyclerView );
         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager( layoutManager );
+        final ArrayList<UserPair> users = new ArrayList<UserPair>();
         myRef.addListenerForSingleValueEvent( new ValueEventListener() {
 
 
@@ -65,10 +69,38 @@ public class SettleTheCostFragment extends Fragment {
                     Log.d( DEBUG_TAG, "ReviewJobLeadsActivity.onCreate(): added: " + si );
                 }
                 Log.d( DEBUG_TAG, "ReviewJobLeadsActivity.onCreate(): setting recyclerAdapter" );
-
-                // Now, create a JobLeadRecyclerAdapter to populate a ReceyclerView to display the job leads.
-                //recyclerAdapter = new JobLeadRecyclerAdapter( jobLeadsList );
-                //recyclerView.setAdapter( recyclerAdapter );
+                boolean alreadyAdded = false;
+                // Loop through shopping list, add prices
+                for (int i= 0; i < shoppingItemList.size(); i++)
+                {
+                    ShoppingItem currentItem = (ShoppingItem) shoppingItemList.get(i);
+                    // If the ArrayList is empty, add the first user
+                    if (users.size() == 0)
+                    {
+                        users.add(currentItem.getPurchasedUser());
+                    }
+                    else
+                    {
+                        for (int j = 0; j < users.size(); j++)
+                        {
+                            // Check to make sure that we haven't added to total for the user yet
+                            if (users.get(j)==currentItem.getPurchasedUser() && !alreadyAdded)
+                            {
+                                alreadyAdded = true;
+                                currentItem.getPurchasedUser().addToCost(currentItem.getPrice());
+                            }
+                        }
+                        // If the ArrayList didn't contain the user, add the user and add to their total
+                        if(!alreadyAdded)
+                        {
+                            users.add(currentItem.getPurchasedUser());
+                            currentItem.getPurchasedUser().addToCost(currentItem.getPrice());
+                        }
+                    }
+                }
+                // Now, create a SettleTheCostAdapter to populate a RecyclerView to display the job leads.
+                recyclerAdapter = new SettleTheCostAdapter( users );
+                recyclerView.setAdapter(recyclerAdapter);
             }
 
             @Override

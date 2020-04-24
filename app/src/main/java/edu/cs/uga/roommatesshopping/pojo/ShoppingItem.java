@@ -7,12 +7,12 @@ public class ShoppingItem {
     private String name;
     private double price;
     private FirebaseUser enteredUser;
-    private FirebaseUser purchasedUser;
+    private UserPair purchasedUser;
     private boolean purchased;
 
     public ShoppingItem()
     {}
-    public ShoppingItem(String name, double price, FirebaseUser enteredUser, FirebaseUser purchasedUser, boolean purchased)
+    public ShoppingItem(String name, double price, FirebaseUser enteredUser, UserPair purchasedUser, boolean purchased)
     {
         this.name = name;
         this.price = price;
@@ -28,7 +28,7 @@ public class ShoppingItem {
     {
         return price;
     }
-    public FirebaseUser getPurchasedUser()
+    public UserPair getPurchasedUser()
     {
         return purchasedUser;
     }
