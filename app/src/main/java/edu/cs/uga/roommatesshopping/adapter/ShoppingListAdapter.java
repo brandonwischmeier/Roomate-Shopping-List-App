@@ -2,6 +2,7 @@ package edu.cs.uga.roommatesshopping.adapter;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -15,35 +16,49 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
     private static final String TAG = "ShoppingListAdapter";
 
-    static class MyViewHolder extends RecyclerView.ViewHolder {
+    private OnListListener onListListener;
+
+    static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ListItemBinding listItemBinding;
+        OnListListener onListListener;
 
-        MyViewHolder(ListItemBinding binding) {
+        MyViewHolder(ListItemBinding binding, OnListListener onListListener) {
             super(binding.getRoot());
             listItemBinding = binding;
+            this.onListListener = onListListener;
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onListListener.onListClick(getAdapterPosition());
         }
     }
 
     private ArrayList<String> shoppingListNames;
 
-    public ShoppingListAdapter(ArrayList<String> shoppingListNames) {
+    public ShoppingListAdapter(ArrayList<String> shoppingListNames, OnListListener onListListener) {
         this.shoppingListNames = shoppingListNames;
+        this.onListListener = onListListener;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyViewHolder(ListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        return new MyViewHolder(ListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false), onListListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        // TODO
         Log.d(TAG, "onBindViewHolder: called");
+
+        holder.setIsRecyclable(false);
         for (int i = 0; i < shoppingListNames.size(); i++) {
             holder.listItemBinding.shoppingListName.setText(shoppingListNames.get(position));
         }
+
     }
 
     @Override
@@ -52,4 +67,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         return shoppingListNames.size();
     }
 
+    public interface OnListListener {
+        void onListClick(int position);
+    }
 }

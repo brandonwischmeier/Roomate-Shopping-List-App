@@ -24,6 +24,7 @@ import edu.cs.uga.roommatesshopping.adapter.MessageAdapter;
 import edu.cs.uga.roommatesshopping.databinding.FragmentChatBinding;
 import edu.cs.uga.roommatesshopping.pojo.Message;
 
+
 /**
  * Fragment that controls chat functionality
  */
@@ -112,7 +113,7 @@ public class ChatFragment extends Fragment {
                 binding.edittextChatbox.getText().toString(),
                 getFirebaseUserName());
 
-        if (!binding.edittextChatbox.getText().toString().equals("")) {
+        if (!binding.edittextChatbox.getText().toString().trim().isEmpty()) {
             databaseReference.push().setValue(message);
         }
 

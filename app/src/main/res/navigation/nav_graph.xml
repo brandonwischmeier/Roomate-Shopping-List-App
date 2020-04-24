@@ -19,5 +19,31 @@
         android:id="@+id/homeFragment"
         android:name="edu.cs.uga.roommatesshopping.fragment.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_itemEntryFragment"
+            app:destination="@id/itemEntryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_listDetailFragment"
+            app:destination="@id/listDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemEntryFragment"
+        android:name="edu.cs.uga.roommatesshopping.fragment.ItemEntryFragment"
+        android:label="fragment_item_entry"
+        tools:layout="@layout/fragment_item_entry" />
+    <fragment
+        android:id="@+id/listDetailFragment"
+        android:name="edu.cs.uga.roommatesshopping.fragment.ListDetailFragment"
+        android:label="fragment_list_detail"
+        tools:layout="@layout/fragment_list_detail" >
+        <action
+            android:id="@+id/action_listDetailFragment_to_settleTheCostFragment"
+            app:destination="@id/settleTheCostFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settleTheCostFragment"
+        android:name="edu.cs.uga.roommatesshopping.fragment.SettleTheCostFragment"
+        android:label="fragment_settle_the_cost"
+        tools:layout="@layout/fragment_settle_the_cost" />
 </navigation>

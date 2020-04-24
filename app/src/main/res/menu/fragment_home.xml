@@ -8,10 +8,5 @@
         android:title="@string/new_shopping_list"
         app:showAsAction="ifRoom|withText" />
 
-    <item
-        android:id="@+id/settle_up"
-        android:icon="@drawable/ic_more_vert_black_24dp"
-        android:title="@string/settle_up"
-        app:showAsAction="never" />
 
 </menu>
