@@ -35,4 +35,7 @@ public class ShoppingItem {
     {
         return purchased;
     }
+    public void setPrice(double price){this.price = price;}
+    public void setPurchasedUser(UserPair userPair){this.purchasedUser=userPair;}
+    public void setPurchased(){purchased = true;}
 }

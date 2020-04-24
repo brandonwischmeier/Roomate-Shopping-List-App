@@ -19,11 +19,20 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 import edu.cs.uga.roommatesshopping.R;
 import edu.cs.uga.roommatesshopping.adapter.ShoppingListAdapter;
 import edu.cs.uga.roommatesshopping.databinding.FragmentHomeBinding;
+import edu.cs.uga.roommatesshopping.pojo.ShoppingItem;
 
 
 /**
@@ -33,10 +42,9 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
 
     private static final String TAG = "HomeFragment";
     private FragmentHomeBinding binding;
-    private ArrayList<String> shoppingList = new ArrayList<>();
-    private ShoppingListAdapter adapter = new ShoppingListAdapter(generateFakeValues(), this);
-    ;
+    ArrayList<ShoppingItem> shoppingItemList;
     private NavController navController = null;
+    ShoppingListAdapter adapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -47,11 +55,31 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("shoppingItems");
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        shoppingItemList = new ArrayList<ShoppingItem>();
+        myRef.addListenerForSingleValueEvent( new ValueEventListener() {
+                                                  public void onDataChange(DataSnapshot snapshot) {
+                                                      for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                                                          ShoppingItem si = postSnapshot.getValue(ShoppingItem.class);
+                                                          shoppingItemList.add(si);
+                                                      }
+
+                                                  }
+                                                    @Override
+                                                    public void onCancelled(DatabaseError databaseError) {
+                                                        System.out.println("The read failed: " + databaseError.getMessage());
+                                                    }
+                                              });
+        adapter = new ShoppingListAdapter(shoppingItemList, this);
+        new ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.recyclerviewShoppingLists);
+        binding.recyclerviewShoppingLists.setAdapter(adapter);
         binding.recyclerviewShoppingLists.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerviewShoppingLists.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
-        new ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.recyclerviewShoppingLists);
-        binding.recyclerviewShoppingLists.setAdapter(adapter);
+
         return binding.getRoot();
     }
 
@@ -93,7 +121,7 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
         binding = null;
     }
 
-    private ArrayList<String> generateFakeValues() {
+   /* private ArrayList<String> generateFakeValues() {
         shoppingList.add("Shopping list 1");
         shoppingList.add("Shopping list 2");
         shoppingList.add("Shopping list 3");
@@ -104,7 +132,7 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
         shoppingList.add("Shopping list 8");
         shoppingList.add("Shopping list 9");
         return shoppingList;
-    }
+    }*/
 
     @Override
     public void onListClick(int position) {
@@ -127,7 +155,7 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
                 @Override
                 public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                     // TODO: Remove shopping list from database
-                    shoppingList.remove(viewHolder.getAdapterPosition());
+                    shoppingItemList.remove(viewHolder.getAdapterPosition());
                     adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
                 }
             };

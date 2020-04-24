@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import edu.cs.uga.roommatesshopping.databinding.ListItemBinding;
+import edu.cs.uga.roommatesshopping.pojo.ShoppingItem;
 
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.MyViewHolder> {
 
@@ -37,9 +38,9 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         }
     }
 
-    private ArrayList<String> shoppingListNames;
+    private ArrayList<ShoppingItem> shoppingListNames;
 
-    public ShoppingListAdapter(ArrayList<String> shoppingListNames, OnListListener onListListener) {
+    public ShoppingListAdapter(ArrayList<ShoppingItem> shoppingListNames, OnListListener onListListener) {
         this.shoppingListNames = shoppingListNames;
         this.onListListener = onListListener;
     }
@@ -56,7 +57,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
         holder.setIsRecyclable(false);
         for (int i = 0; i < shoppingListNames.size(); i++) {
-            holder.listItemBinding.shoppingListName.setText(shoppingListNames.get(position));
+            holder.listItemBinding.shoppingListName.setText(shoppingListNames.get(position).getName());
         }
 
     }
