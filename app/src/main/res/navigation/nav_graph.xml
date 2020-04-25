@@ -50,4 +50,8 @@
             app:argType="integer"
             android:defaultValue="0" />
     </fragment>
+    <fragment
+        android:id="@+id/purchasedListFragment"
+        android:name="edu.cs.uga.roommatesshopping.fragment.PurchasedListFragment"
+        android:label="PurchasedListFragment" />
 </navigation>

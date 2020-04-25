@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/homeFragment"
         android:icon="@drawable/ic_list_black_24dp"
         android:title="@string/list" />
 
-
+    <item
+        android:id="@+id/purchasedListFragment"
+        android:icon="@drawable/ic_shopping_cart_black_24dp"
+        android:title="@string/purchased"
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/chatFragment"
