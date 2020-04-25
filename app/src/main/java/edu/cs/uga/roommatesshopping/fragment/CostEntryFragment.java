@@ -20,29 +20,36 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-
 import edu.cs.uga.roommatesshopping.R;
 import edu.cs.uga.roommatesshopping.pojo.ShoppingItem;
-import edu.cs.uga.roommatesshopping.pojo.UserPair;
 
 public class CostEntryFragment extends Fragment {
+<<<<<<< HEAD
     EditText editText;
     Button button;
     ShoppingItem currentItem;
+=======
+
+    private static final String TAG = "CostEntryFragment";
+    //private HomeFragment homeFragment = new HomeFragment();
+
+>>>>>>> 68e4e33fc53de8959a41fbaf59e3a3ad080cef4b
     public CostEntryFragment() {
     }
-    public static CostEntryFragment newInstance(int index) {
-        CostEntryFragment f = new CostEntryFragment();
-        // Supply index input as an argument.
-        Bundle args = new Bundle();
-        args.putInt("index", index);
-        f.setArguments(args);
-        return f;
-    }
+
+//
+//    public static CostEntryFragment newInstance(int index) {
+//        CostEntryFragment f = new CostEntryFragment();
+//        // Supply index input as an argument.
+//        Bundle args = new Bundle();
+//        args.putInt("index", index);
+//        f.setArguments(args);
+//        return f;
+//    }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_cost_entry, container, false);
+<<<<<<< HEAD
         Bundle args = getArguments();
         assert args != null;
         int index = args.getInt("index", 0);
@@ -70,6 +77,18 @@ public class CostEntryFragment extends Fragment {
         editText = v.findViewById(R.id.cost);
         button = v.findViewById(R.id.button2);
         button.setOnClickListener(new CostEntryFragment.clickListener());
+=======
+//        Bundle args = getArguments();
+//        int index = args.getInt("index", 0);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("shoppingItems");
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        ShoppingItem currentItem = (ShoppingItem) getArguments().getParcelableArrayList("list").get(getArguments().getInt("position"));
+        EditText editText = v.findViewById(R.id.cost);
+//        double price = Double.parseDouble(editText.getText().toString());
+//        currentItem.setPrice(price);
+//        currentItem.setPurchasedUser(new UserPair(mAuth.getCurrentUser()));
+>>>>>>> 68e4e33fc53de8959a41fbaf59e3a3ad080cef4b
         return v;
     }
     private class clickListener implements View.OnClickListener
