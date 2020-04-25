@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -66,16 +68,30 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
                                                           ShoppingItem si = postSnapshot.getValue(ShoppingItem.class);
                                                           shoppingItemList.add(si);
                                                       }
-
+                                                      adapter = new ShoppingListAdapter(shoppingItemList, new ShoppingListAdapter.OnListListener() {
+                                                          @Override
+                                                          public void onListClick(int position) {
+                                                              Bundle args = new Bundle();
+                                                              args.putInt("index", position);
+                                                              CostEntryFragment f = new CostEntryFragment();
+                                                              f.setArguments(args);
+                                                              FragmentManager manager = getFragmentManager();
+                                                              FragmentTransaction transaction = manager.beginTransaction();
+                                                              transaction.add(R.id.container, f,"CostEntryFragment");
+                                                              transaction.addToBackStack(null);
+                                                              transaction.commit();
+                                                          }
+                                                      });
+                                                      new ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.recyclerviewShoppingLists);
+                                                      binding.recyclerviewShoppingLists.setAdapter(adapter);
                                                   }
                                                     @Override
                                                     public void onCancelled(DatabaseError databaseError) {
                                                         System.out.println("The read failed: " + databaseError.getMessage());
                                                     }
                                               });
-        adapter = new ShoppingListAdapter(shoppingItemList, this);
-        new ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.recyclerviewShoppingLists);
-        binding.recyclerviewShoppingLists.setAdapter(adapter);
+
+
         binding.recyclerviewShoppingLists.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerviewShoppingLists.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
 
