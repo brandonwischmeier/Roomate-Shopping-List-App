@@ -5,7 +5,7 @@
     <item
         android:id="@+id/new_shopping_list"
         android:icon="@drawable/ic_add_black_24dp"
-        android:title="@string/new_shopping_list"
+        android:title="@string/new_shopping_item"
         app:showAsAction="ifRoom|withText" />
 
 
