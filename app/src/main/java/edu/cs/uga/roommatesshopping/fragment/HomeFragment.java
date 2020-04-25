@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -44,9 +42,10 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
 
     private static final String TAG = "HomeFragment";
     private FragmentHomeBinding binding;
-    ArrayList<ShoppingItem> shoppingItemList;
+    private ArrayList<ShoppingItem> shoppingItemList = new ArrayList<>();
     private NavController navController = null;
-    ShoppingListAdapter adapter;
+    private ShoppingListAdapter adapter;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -61,35 +60,32 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
         DatabaseReference myRef = database.getReference("shoppingItems");
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        shoppingItemList = new ArrayList<ShoppingItem>();
-        myRef.addListenerForSingleValueEvent( new ValueEventListener() {
-                                                  public void onDataChange(DataSnapshot snapshot) {
-                                                      for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                                                          ShoppingItem si = postSnapshot.getValue(ShoppingItem.class);
-                                                          shoppingItemList.add(si);
-                                                      }
-                                                      adapter = new ShoppingListAdapter(shoppingItemList, new ShoppingListAdapter.OnListListener() {
-                                                          @Override
-                                                          public void onListClick(int position) {
-                                                              Bundle args = new Bundle();
-                                                              args.putInt("index", position);
-                                                              CostEntryFragment f = new CostEntryFragment();
-                                                              f.setArguments(args);
-                                                              FragmentManager manager = getFragmentManager();
-                                                              FragmentTransaction transaction = manager.beginTransaction();
-                                                              transaction.add(R.id.container, f,"CostEntryFragment");
-                                                              transaction.addToBackStack(null);
-                                                              transaction.commit();
-                                                          }
-                                                      });
-                                                      new ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.recyclerviewShoppingLists);
-                                                      binding.recyclerviewShoppingLists.setAdapter(adapter);
-                                                  }
-                                                    @Override
-                                                    public void onCancelled(DatabaseError databaseError) {
-                                                        System.out.println("The read failed: " + databaseError.getMessage());
-                                                    }
-                                              });
+        shoppingItemList = new ArrayList<>();
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+                    ShoppingItem si = postSnapshot.getValue(ShoppingItem.class);
+                    shoppingItemList.add(si);
+                }
+                adapter = new ShoppingListAdapter(shoppingItemList, new ShoppingListAdapter.OnListListener() {
+                    @Override
+                    public void onListClick(int position) {
+                        Bundle args = new Bundle();
+                        args.putInt("index", position);
+                        args.putParcelableArrayList("list", shoppingItemList);
+                        navController.navigate(R.id.action_homeFragment_to_costEntryFragment, args);
+
+                    }
+                });
+                new ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.recyclerviewShoppingLists);
+                binding.recyclerviewShoppingLists.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getMessage());
+            }
+        });
 
 
         binding.recyclerviewShoppingLists.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -137,25 +133,13 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
         binding = null;
     }
 
-   /* private ArrayList<String> generateFakeValues() {
-        shoppingList.add("Shopping list 1");
-        shoppingList.add("Shopping list 2");
-        shoppingList.add("Shopping list 3");
-        shoppingList.add("Shopping list 4");
-        shoppingList.add("Shopping list 5");
-        shoppingList.add("Shopping list 6");
-        shoppingList.add("Shopping list 7");
-        shoppingList.add("Shopping list 8");
-        shoppingList.add("Shopping list 9");
-        return shoppingList;
-    }*/
 
     @Override
     public void onListClick(int position) {
         Log.d(TAG, "onListClick: clicked: " + position);
 
         // Navigate to ListDetailFragment
-        navController.navigate(R.id.action_homeFragment_to_listDetailFragment);
+        //navController.navigate(R.id.action_homeFragment_to_listDetailFragment);
     }
 
     /**
@@ -179,5 +163,9 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
     @Override
     public void onClick(View v) {
 
+    }
+
+    public ArrayList<ShoppingItem> getShoppingItemList() {
+        return shoppingItemList;
     }
 }
