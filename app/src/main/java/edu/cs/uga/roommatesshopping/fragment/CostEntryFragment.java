@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -64,6 +65,8 @@ public class CostEntryFragment extends Fragment {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         currentItem = (ShoppingItem) getArguments().getParcelableArrayList("list").get(getArguments().getInt("position"));
         editText = v.findViewById(R.id.cost);
+        TextView textView = v.findViewById(R.id.textView3);
+        textView.setText(currentItem.getName());
         button = v.findViewById(R.id.enterBtn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
