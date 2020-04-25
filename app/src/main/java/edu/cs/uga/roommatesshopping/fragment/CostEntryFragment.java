@@ -19,6 +19,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.cs.uga.roommatesshopping.R;
 import edu.cs.uga.roommatesshopping.pojo.ShoppingItem;
@@ -41,7 +43,7 @@ public class CostEntryFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_cost_entry, container, false);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("shoppingItems");
+        final DatabaseReference myRef = database.getReference("shoppingItems");
         shoppingItemList = getArguments().getParcelableArrayList("list");
         myRef.addListenerForSingleValueEvent( new ValueEventListener() {
 
@@ -76,8 +78,21 @@ public class CostEntryFragment extends Fragment {
                 if (!editText.getText().toString().trim().isEmpty()) {
                     double price = Double.parseDouble(editText.getText().toString());
                     currentItem.setPrice(price);
-                    Toast.makeText(getActivity(),
-                            "You've set the price to $" + price, Toast.LENGTH_SHORT).show();
+                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                    currentItem.setPurchasedUser(new UserPair(mAuth.getCurrentUser()));
+                    DatabaseReference hopperRef = myRef.child(currentItem.getName());
+                    Map<String, Object> hopperUpdates = new HashMap<>();
+                    hopperUpdates.put("price", currentItem.getPrice());
+                    hopperUpdates.put("purchasedUser", new UserPair(mAuth.getCurrentUser()));
+                    try {
+                        hopperRef.updateChildren(hopperUpdates);
+                        Toast.makeText(getActivity(),
+                                "You've set the price to $" + price, Toast.LENGTH_SHORT).show();
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println(e.getCause());
+                    }
                 } else {
                     editText.setText("");
                     Toast.makeText(getActivity(),
@@ -86,21 +101,8 @@ public class CostEntryFragment extends Fragment {
             }
         });
 
-        currentItem.setPurchasedUser(new UserPair(mAuth.getCurrentUser()));
+        //currentItem.setPurchasedUser(new UserPair(mAuth.getCurrentUser()));
         return v;
     }
-//    private class clickListener implements View.OnClickListener
-//    {
-//        @Override
-//        public void onClick(View v) {
-//            FirebaseDatabase database = FirebaseDatabase.getInstance();
-//            DatabaseReference myRef = database.getReference("shoppingItems");
-//            FirebaseAuth mAuth = FirebaseAuth.getInstance();
-//            double price = Double.parseDouble(editText.getText().toString());
-//            currentItem.setPrice(price);
-//            currentItem.setPurchasedUser(new UserPair(mAuth.getCurrentUser()));
-//            //TODO: update in database
-//
-//        }
-//    }
+
 }
