@@ -71,30 +71,25 @@ public class SettleTheCostFragment extends Fragment {
                 Log.d( DEBUG_TAG, "ReviewJobLeadsActivity.onCreate(): setting recyclerAdapter" );
                 boolean alreadyAdded = false;
                 // Loop through shopping list, add prices
-                for (int i= 0; i < shoppingItemList.size(); i++)
-                {
+                for (int i= 0; i < shoppingItemList.size(); i++) {
                     ShoppingItem currentItem = (ShoppingItem) shoppingItemList.get(i);
-                    // If the ArrayList is empty, add the first user
-                    if (users.size() == 0)
-                    {
-                        users.add(currentItem.getPurchasedUser());
-                    }
-                    else
-                    {
-                        for (int j = 0; j < users.size(); j++)
-                        {
-                            // Check to make sure that we haven't added to total for the user yet
-                            if (users.get(j)==currentItem.getPurchasedUser() && !alreadyAdded)
-                            {
-                                alreadyAdded = true;
+                    if (currentItem.isPurchased()) {
+                        // If the ArrayList is empty, add the first user
+                        if (users.size() == 0) {
+                            users.add(currentItem.getPurchasedUser());
+                        } else {
+                            for (int j = 0; j < users.size(); j++) {
+                                // Check to make sure that we haven't added to total for the user yet
+                                if (users.get(j) == currentItem.getPurchasedUser() && !alreadyAdded) {
+                                    alreadyAdded = true;
+                                    currentItem.getPurchasedUser().addToCost(currentItem.getPrice());
+                                }
+                            }
+                            // If the ArrayList didn't contain the user, add the user and add to their total
+                            if (!alreadyAdded) {
+                                users.add(currentItem.getPurchasedUser());
                                 currentItem.getPurchasedUser().addToCost(currentItem.getPrice());
                             }
-                        }
-                        // If the ArrayList didn't contain the user, add the user and add to their total
-                        if(!alreadyAdded)
-                        {
-                            users.add(currentItem.getPurchasedUser());
-                            currentItem.getPurchasedUser().addToCost(currentItem.getPrice());
                         }
                     }
                 }
