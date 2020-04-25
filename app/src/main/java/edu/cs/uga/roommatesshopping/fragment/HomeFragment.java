@@ -138,8 +138,6 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
     public void onListClick(int position) {
         Log.d(TAG, "onListClick: clicked: " + position);
 
-        // Navigate to ListDetailFragment
-        //navController.navigate(R.id.action_homeFragment_to_listDetailFragment);
     }
 
     /**
