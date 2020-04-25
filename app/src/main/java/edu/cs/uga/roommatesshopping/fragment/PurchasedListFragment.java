@@ -1,15 +1,14 @@
 package edu.cs.uga.roommatesshopping.fragment;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,18 +21,20 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import edu.cs.uga.roommatesshopping.R;
+import edu.cs.uga.roommatesshopping.adapter.PurchaseListAdapter;
 import edu.cs.uga.roommatesshopping.adapter.SettleTheCostAdapter;
+import edu.cs.uga.roommatesshopping.adapter.ShoppingListAdapter;
 import edu.cs.uga.roommatesshopping.pojo.ShoppingItem;
 import edu.cs.uga.roommatesshopping.pojo.UserPair;
 
-
-public class SettleTheCostFragment extends Fragment {
+public class PurchasedListFragment extends Fragment {
     ArrayList shoppingItemList;
     RecyclerView recyclerView;
+    ArrayList<ShoppingItem> purchasedItemList;
     private RecyclerView.Adapter recyclerAdapter;
     RecyclerView.LayoutManager layoutManager;
     public static final String DEBUG_TAG = "SettleTheCostFragment";
-    public SettleTheCostFragment() {
+    public PurchasedListFragment() {
         // Required empty public constructor
     }
 
@@ -51,6 +52,7 @@ public class SettleTheCostFragment extends Fragment {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         shoppingItemList = new ArrayList<ShoppingItem>();
+        purchasedItemList = new ArrayList<ShoppingItem>();
         View v = inflater.inflate(R.layout.fragment_settle_the_cost, container, false);
         recyclerView = (RecyclerView) v.findViewById( R.id.recyclerView );
         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
@@ -65,36 +67,23 @@ public class SettleTheCostFragment extends Fragment {
                 // we need to iterate over the elements and place them on a List.
                 for( DataSnapshot postSnapshot: snapshot.getChildren() ) {
                     ShoppingItem si = postSnapshot.getValue(ShoppingItem.class);
-                   shoppingItemList.add(si);
+                    shoppingItemList.add(si);
                     Log.d( DEBUG_TAG, "ReviewJobLeadsActivity.onCreate(): added: " + si );
                 }
                 Log.d( DEBUG_TAG, "ReviewJobLeadsActivity.onCreate(): setting recyclerAdapter" );
                 boolean alreadyAdded = false;
                 // Loop through shopping list, add prices
-                for (int i= 0; i < shoppingItemList.size(); i++) {
+                for (int i= 0; i < shoppingItemList.size(); i++)
+                {
                     ShoppingItem currentItem = (ShoppingItem) shoppingItemList.get(i);
-                    if (currentItem.isPurchased()) {
-                        // If the ArrayList is empty, add the first user
-                        if (users.size() == 0) {
-                            users.add(currentItem.getPurchasedUser());
-                        } else {
-                            for (int j = 0; j < users.size(); j++) {
-                                // Check to make sure that we haven't added to total for the user yet
-                                if (users.get(j) == currentItem.getPurchasedUser() && !alreadyAdded) {
-                                    alreadyAdded = true;
-                                    currentItem.getPurchasedUser().addToCost(currentItem.getPrice());
-                                }
-                            }
-                            // If the ArrayList didn't contain the user, add the user and add to their total
-                            if (!alreadyAdded) {
-                                users.add(currentItem.getPurchasedUser());
-                                currentItem.getPurchasedUser().addToCost(currentItem.getPrice());
-                            }
-                        }
-                    }
+                    // If the ArrayList is empty, add the first user
+                   if (currentItem.isPurchased())
+                   {
+                       purchasedItemList.add(currentItem);
+                   }
                 }
                 // Now, create a SettleTheCostAdapter to populate a RecyclerView to display the job leads.
-                recyclerAdapter = new SettleTheCostAdapter( users );
+                recyclerAdapter = new PurchaseListAdapter( purchasedItemList);
                 recyclerView.setAdapter(recyclerAdapter);
             }
 
