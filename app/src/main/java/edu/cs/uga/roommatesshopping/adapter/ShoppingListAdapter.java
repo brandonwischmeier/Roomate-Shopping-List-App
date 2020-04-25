@@ -57,7 +57,9 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
         holder.setIsRecyclable(false);
         for (int i = 0; i < shoppingListNames.size(); i++) {
-            holder.listItemBinding.shoppingListName.setText(shoppingListNames.get(position).getName());
+            if (!shoppingListNames.get(position).isPurchased()) {
+                holder.listItemBinding.shoppingListName.setText(shoppingListNames.get(position).getName());
+            }
         }
 
     }
