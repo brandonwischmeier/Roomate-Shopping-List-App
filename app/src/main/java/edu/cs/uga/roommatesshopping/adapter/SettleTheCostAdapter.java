@@ -43,7 +43,7 @@ public class SettleTheCostAdapter extends RecyclerView.Adapter<SettleTheCostAdap
         // TODO
         Log.d(TAG, "onBindViewHolder: called");
         for (int i = 0; i < users.size(); i++) {
-            String user = users.get(position).getUser().getDisplayName();
+            String user = users.get(position).getUser();
             double price = users.get(position).getCost();
             holder.listItemBinding.shoppingListName.setText(user + price);
         }
