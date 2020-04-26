@@ -11,6 +11,7 @@ public class ShoppingItem implements Parcelable {
     private double price;
     private FirebaseUser enteredUser;
     private String purchasedUser;
+    private String itemID;
     private boolean purchased;
 
     public ShoppingItem()
@@ -61,7 +62,8 @@ public class ShoppingItem implements Parcelable {
     public void setPrice(double price){this.price = price;}
     public void setPurchasedUser(String userPair){this.purchasedUser=userPair;}
     public void setPurchased(){purchased = true;}
-
+    public String getItemID(){return itemID;}
+    public void setItemID(String itemID){this.itemID = itemID;}
     @Override
     public int describeContents() {
         return 0;

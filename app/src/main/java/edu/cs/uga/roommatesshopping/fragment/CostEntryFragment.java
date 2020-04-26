@@ -46,6 +46,7 @@ public class CostEntryFragment extends Fragment {
         final DatabaseReference myRef = database.getReference("shoppingItems");
         shoppingItemList = getArguments().getParcelableArrayList("list");
         int index = getArguments().getInt("index");
+        //final String itemID = getArguments().getString("itemID");
         myRef.addListenerForSingleValueEvent( new ValueEventListener() {
 
             @Override
@@ -67,6 +68,7 @@ public class CostEntryFragment extends Fragment {
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         currentItem = shoppingItemList.get(index);
+        final String itemID = currentItem.getItemID();
         editText = v.findViewById(R.id.cost);
         TextView textView = v.findViewById(R.id.textView3);
         textView.setText(currentItem.getName());
@@ -80,15 +82,17 @@ public class CostEntryFragment extends Fragment {
                     double price = Double.parseDouble(editText.getText().toString());
                     currentItem.setPrice(price);
                     FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                    DatabaseReference hopperRef = myRef.child(currentItem.getName());
+                    DatabaseReference hopperRef = myRef.child(itemID);
+                    //DatabaseReference hopperRef = childRef.child(currentItem.getName());
                     DatabaseReference userUpdateRef = hopperRef.child("purchasedUser");
                     Map<String, Object> hopperUpdates = new HashMap<>();
                     hopperUpdates.put("price", currentItem.getPrice());
+                    hopperUpdates.put("purchased", true);
                     hopperUpdates.put("purchasedUser", mAuth.getCurrentUser().getEmail());
                     try {
                         hopperRef.updateChildren(hopperUpdates);
                         Toast.makeText(getActivity(),
-                                "You've set the price to $" + currentItem.getName() + price, Toast.LENGTH_SHORT).show();
+                                "You've set the price to $" + price, Toast.LENGTH_SHORT).show();
                     }
                     catch(Exception e)
                     {

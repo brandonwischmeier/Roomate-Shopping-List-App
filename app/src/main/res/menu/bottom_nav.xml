@@ -10,8 +10,7 @@
     <item
         android:id="@+id/purchasedListFragment"
         android:icon="@drawable/ic_shopping_cart_black_24dp"
-        android:title="@string/purchased"
-        app:showAsAction="ifRoom"/>
+        android:title="@string/purchased" />
 
     <item
         android:id="@+id/chatFragment"

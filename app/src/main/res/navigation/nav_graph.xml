@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_homeFragment_to_costEntryFragment"
             app:destination="@id/costEntryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_purchasedListFragment"
+            app:destination="@+id/purchasedListFragment"/>
     </fragment>
     <fragment
         android:id="@+id/itemEntryFragment"
@@ -42,9 +45,6 @@
         android:name="edu.cs.uga.roommatesshopping.fragment.CostEntryFragment"
         android:label="CostEntryFragment" >
 
-        <action
-            android:id="@+id/action_costEntryFragment_to_settleTheCostFragment"
-            app:destination="@id/settleTheCostFragment" />
         <argument
             android:name="position"
             app:argType="integer"
@@ -53,5 +53,10 @@
     <fragment
         android:id="@+id/purchasedListFragment"
         android:name="edu.cs.uga.roommatesshopping.fragment.PurchasedListFragment"
-        android:label="PurchasedListFragment" />
+        android:label="PurchasedListFragment">
+
+        <action
+        android:id="@+id/action_purchasedListFragment_to_settleTheCostFragment"
+        app:destination="@id/settleTheCostFragment" />
+    </fragment>
 </navigation>

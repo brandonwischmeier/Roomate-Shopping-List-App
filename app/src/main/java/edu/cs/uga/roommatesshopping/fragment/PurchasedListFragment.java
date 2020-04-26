@@ -53,7 +53,7 @@ public class PurchasedListFragment extends Fragment {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         shoppingItemList = new ArrayList<ShoppingItem>();
         purchasedItemList = new ArrayList<ShoppingItem>();
-        View v = inflater.inflate(R.layout.fragment_settle_the_cost, container, false);
+        View v = inflater.inflate(R.layout.fragment_purchased_list, container, false);
         recyclerView = (RecyclerView) v.findViewById( R.id.recyclerView );
         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager( layoutManager );
@@ -66,9 +66,11 @@ public class PurchasedListFragment extends Fragment {
                 // Once we have a DataSnapshot object, knowing that this is a list,
                 // we need to iterate over the elements and place them on a List.
                 for( DataSnapshot postSnapshot: snapshot.getChildren() ) {
-                    ShoppingItem si = postSnapshot.getValue(ShoppingItem.class);
-                    shoppingItemList.add(si);
-                    Log.d( DEBUG_TAG, "ReviewJobLeadsActivity.onCreate(): added: " + si );
+                    if(postSnapshot != null) {
+                        ShoppingItem si = postSnapshot.getValue(ShoppingItem.class);
+                        shoppingItemList.add(si);
+                        Log.d(DEBUG_TAG, "ReviewJobLeadsActivity.onCreate(): added: " + si);
+                    }
                 }
                 Log.d( DEBUG_TAG, "ReviewJobLeadsActivity.onCreate(): setting recyclerAdapter" );
                 boolean alreadyAdded = false;

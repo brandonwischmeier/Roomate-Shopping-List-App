@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
     private ArrayList<ShoppingItem> shoppingItemList = new ArrayList<>();
     private NavController navController = null;
     private ShoppingListAdapter adapter;
-
+    String itemID;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -65,12 +65,15 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     ShoppingItem si = postSnapshot.getValue(ShoppingItem.class);
+                    itemID = postSnapshot.getKey();
+                    si.setItemID(itemID);
                     shoppingItemList.add(si);
                 }
                 adapter = new ShoppingListAdapter(shoppingItemList, new ShoppingListAdapter.OnListListener() {
                     @Override
                     public void onListClick(int position) {
                         Bundle args = new Bundle();
+
                         args.putInt("index", position);
                         args.putParcelableArrayList("list", shoppingItemList);
                         navController.navigate(R.id.action_homeFragment_to_costEntryFragment, args);
