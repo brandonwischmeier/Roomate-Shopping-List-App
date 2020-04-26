@@ -34,19 +34,19 @@ public class PurchaseListAdapter extends RecyclerView.Adapter<PurchaseListAdapte
 
     @NonNull
     @Override
-    public PurchaseListAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new PurchaseListAdapter.MyViewHolder(ListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new MyViewHolder(ListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PurchaseListAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         // TODO
         Log.d(TAG, "onBindViewHolder: called");
+        holder.setIsRecyclable(false);
         for (int i = 0; i < shoppingItems.size(); i++) {
-            if (shoppingItems.get(i).isPurchased()) {
-                String item = shoppingItems.get(i).getName();
-                holder.listItemBinding.shoppingListName.setText(item);
-            }
+                String text = shoppingItems.get(position).getName() + " " + shoppingItems.get(position).getPrice();
+                System.out.println("adapter" + text);
+                holder.listItemBinding.shoppingListName.setText(text);
         }
     }
 

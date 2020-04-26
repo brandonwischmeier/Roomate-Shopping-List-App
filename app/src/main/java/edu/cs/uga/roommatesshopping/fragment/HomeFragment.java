@@ -65,7 +65,8 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     ShoppingItem si = postSnapshot.getValue(ShoppingItem.class);
-                    if(!si.isPurchased()) {
+                    if(!si.isPurchased())
+                    {
                         itemID = postSnapshot.getKey();
                         si.setItemID(itemID);
                         shoppingItemList.add(si);
