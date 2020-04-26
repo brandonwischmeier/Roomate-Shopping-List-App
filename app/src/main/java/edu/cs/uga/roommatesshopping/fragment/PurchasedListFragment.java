@@ -68,7 +68,9 @@ public class PurchasedListFragment extends Fragment {
                 for( DataSnapshot postSnapshot: snapshot.getChildren() ) {
                     if(postSnapshot != null) {
                         ShoppingItem si = postSnapshot.getValue(ShoppingItem.class);
-                        shoppingItemList.add(si);
+                        if(si.isPurchased()) {
+                            shoppingItemList.add(si);
+                        }
                         Log.d(DEBUG_TAG, "ReviewJobLeadsActivity.onCreate(): added: " + si);
                     }
                 }
