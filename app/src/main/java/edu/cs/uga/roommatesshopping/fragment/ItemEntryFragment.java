@@ -47,9 +47,10 @@ public class ItemEntryFragment extends Fragment {
         @Override
         public void onClick(View v) {
             String itemText = editText.getText().toString();
-            final ShoppingItem shoppingItem = new ShoppingItem(itemText, 0.00, new UserPair(), false);
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            String fb = mAuth.getCurrentUser().getEmail();
+            final ShoppingItem shoppingItem = new ShoppingItem(itemText, 0.00, fb, false);
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference("shoppingItems");
 
             myRef.push().setValue( shoppingItem )

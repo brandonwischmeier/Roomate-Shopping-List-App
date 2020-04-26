@@ -3,11 +3,11 @@ package edu.cs.uga.roommatesshopping.pojo;
 import com.google.firebase.auth.FirebaseUser;
 
 public class UserPair {
-    private FirebaseUser user;
+    private String user;
     private double cost;
 
     public UserPair(){}
-    public UserPair(FirebaseUser user)
+    public UserPair(String user)
     {
         this.user = user;
         cost = 0;
@@ -20,7 +20,7 @@ public class UserPair {
     {
         return cost;
     }
-    public FirebaseUser getUser()
+    public String getUser()
     {
         return user;
     }

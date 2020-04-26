@@ -10,12 +10,12 @@ public class ShoppingItem implements Parcelable {
     private String name;
     private double price;
     private FirebaseUser enteredUser;
-    private UserPair purchasedUser;
+    private String purchasedUser;
     private boolean purchased;
 
     public ShoppingItem()
     {}
-    public ShoppingItem(String name, double price, UserPair purchasedUser, boolean purchased)
+    public ShoppingItem(String name, double price, String purchasedUser, boolean purchased)
     {
         this.name = name;
         this.price = price;
@@ -50,7 +50,7 @@ public class ShoppingItem implements Parcelable {
     {
         return price;
     }
-    public UserPair getPurchasedUser()
+    public String getPurchasedUser()
     {
         return purchasedUser;
     }
@@ -59,7 +59,7 @@ public class ShoppingItem implements Parcelable {
         return purchased;
     }
     public void setPrice(double price){this.price = price;}
-    public void setPurchasedUser(UserPair userPair){this.purchasedUser=userPair;}
+    public void setPurchasedUser(String userPair){this.purchasedUser=userPair;}
     public void setPurchased(){purchased = true;}
 
     @Override

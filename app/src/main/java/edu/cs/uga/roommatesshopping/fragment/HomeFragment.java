@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
         DatabaseReference myRef = database.getReference("shoppingItems");
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        shoppingItemList = new ArrayList<>();
+        shoppingItemList = new ArrayList<ShoppingItem>();
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {

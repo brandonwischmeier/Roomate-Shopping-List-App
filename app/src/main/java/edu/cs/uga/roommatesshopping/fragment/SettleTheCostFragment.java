@@ -48,14 +48,15 @@ public class SettleTheCostFragment extends Fragment {
         // use a linear layout manager for the recycler view
 
         DatabaseReference myRef = database.getReference("shoppingItems");
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         shoppingItemList = new ArrayList<ShoppingItem>();
         View v = inflater.inflate(R.layout.fragment_settle_the_cost, container, false);
         recyclerView = (RecyclerView) v.findViewById( R.id.recyclerView );
         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager( layoutManager );
-        final ArrayList<UserPair> users = new ArrayList<UserPair>();
+        final ArrayList<String> users = new ArrayList<String>();
+        final ArrayList<UserPair> userPairs = new ArrayList<>();
         myRef.addListenerForSingleValueEvent( new ValueEventListener() {
 
 
@@ -77,24 +78,26 @@ public class SettleTheCostFragment extends Fragment {
                         // If the ArrayList is empty, add the first user
                         if (users.size() == 0) {
                             users.add(currentItem.getPurchasedUser());
+                            userPairs.add(new UserPair(currentItem.getPurchasedUser()));
                         } else {
                             for (int j = 0; j < users.size(); j++) {
                                 // Check to make sure that we haven't added to total for the user yet
                                 if (users.get(j) == currentItem.getPurchasedUser() && !alreadyAdded) {
                                     alreadyAdded = true;
-                                    currentItem.getPurchasedUser().addToCost(currentItem.getPrice());
+                                    userPairs.get(j).addToCost(currentItem.getPrice());
                                 }
                             }
                             // If the ArrayList didn't contain the user, add the user and add to their total
                             if (!alreadyAdded) {
                                 users.add(currentItem.getPurchasedUser());
-                                currentItem.getPurchasedUser().addToCost(currentItem.getPrice());
+                                userPairs.add(new UserPair(currentItem.getPurchasedUser()));
+                                userPairs.get(i).addToCost(currentItem.getPrice());
                             }
                         }
                     }
                 }
                 // Now, create a SettleTheCostAdapter to populate a RecyclerView to display the job leads.
-                recyclerAdapter = new SettleTheCostAdapter( users );
+                recyclerAdapter = new SettleTheCostAdapter( userPairs );
                 recyclerView.setAdapter(recyclerAdapter);
             }
 
