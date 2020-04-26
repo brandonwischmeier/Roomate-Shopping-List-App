@@ -54,7 +54,7 @@ public class PurchasedListFragment extends Fragment {
         shoppingItemList = new ArrayList<ShoppingItem>();
         purchasedItemList = new ArrayList<ShoppingItem>();
         View v = inflater.inflate(R.layout.fragment_purchased_list, container, false);
-        recyclerView = (RecyclerView) v.findViewById( R.id.recyclerView );
+        recyclerView = (RecyclerView) v.findViewById( R.id.recyclerview_purchased_lists );
         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager( layoutManager );
         final ArrayList<UserPair> users = new ArrayList<UserPair>();
