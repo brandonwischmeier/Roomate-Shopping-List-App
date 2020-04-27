@@ -40,7 +40,6 @@ public class PurchaseListAdapter extends RecyclerView.Adapter<PurchaseListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        // TODO
         Log.d(TAG, "onBindViewHolder: called");
         holder.setIsRecyclable(false);
         for (int i = 0; i < shoppingItems.size(); i++) {

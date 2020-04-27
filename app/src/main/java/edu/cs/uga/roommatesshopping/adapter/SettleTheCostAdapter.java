@@ -45,7 +45,9 @@ public class SettleTheCostAdapter extends RecyclerView.Adapter<SettleTheCostAdap
         for (int i = 0; i < users.size(); i++) {
             String user = users.get(position).getUser();
             double price = users.get(position).getCost();
-            holder.listItemBinding.shoppingListName.setText(user + price);
+            String text = user+ " " + price;
+            System.out.println(text);
+            holder.listItemBinding.shoppingListName.setText(text);
         }
     }
 

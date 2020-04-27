@@ -3,11 +3,17 @@ package edu.cs.uga.roommatesshopping.fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,6 +43,7 @@ public class PurchasedListFragment extends Fragment {
     ArrayList<ShoppingItem> purchasedItemList;
     private RecyclerView.Adapter recyclerAdapter;
     private FragmentHomeBinding binding;
+    private NavController navController = null;
     RecyclerView.LayoutManager layoutManager;
     public static final String DEBUG_TAG = "SettleTheCostFragment";
     public PurchasedListFragment() {
@@ -88,5 +95,39 @@ public class PurchasedListFragment extends Fragment {
             }
         } );
         return v;
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // holds reference to navigation graph
+        // TODO: set listeners
+        navController = Navigation.findNavController(view);
+
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.settle_the_cost) {
+            navController.navigate(R.id.action_purchasedListFragment_to_settleTheCostFragment);
+        }
+        return true;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_home, menu);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

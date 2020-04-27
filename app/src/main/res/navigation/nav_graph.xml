@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_homeFragment_to_purchasedListFragment"
             app:destination="@+id/purchasedListFragment"/>
+        <action
+            android:id="@+id/action_homeFragment_to_settleTheCostFragment"
+            app:destination="@id/settleTheCostFragment" />
     </fragment>
     <fragment
         android:id="@+id/itemEntryFragment"

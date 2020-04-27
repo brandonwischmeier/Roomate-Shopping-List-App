@@ -118,6 +118,10 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
         if (item.getItemId() == R.id.new_shopping_list) {
             navController.navigate(R.id.action_homeFragment_to_itemEntryFragment);
         }
+        if (item.getItemId() == R.id.settle_the_cost)
+        {
+            navController.navigate(R.id.action_homeFragment_to_settleTheCostFragment);
+        }
         return true;
     }
 

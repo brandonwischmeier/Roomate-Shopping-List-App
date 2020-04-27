@@ -53,7 +53,7 @@ public class SettleTheCostFragment extends Fragment {
         shoppingItemList = new ArrayList<ShoppingItem>();
         View v = inflater.inflate(R.layout.fragment_settle_the_cost, container, false);
         recyclerView = (RecyclerView) v.findViewById( R.id.recyclerView );
-        layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager( layoutManager );
         final ArrayList<String> users = new ArrayList<String>();
         final ArrayList<UserPair> userPairs = new ArrayList<>();
@@ -66,25 +66,35 @@ public class SettleTheCostFragment extends Fragment {
                 // we need to iterate over the elements and place them on a List.
                 for( DataSnapshot postSnapshot: snapshot.getChildren() ) {
                     ShoppingItem si = postSnapshot.getValue(ShoppingItem.class);
-                   shoppingItemList.add(si);
-                    Log.d( DEBUG_TAG, "ReviewJobLeadsActivity.onCreate(): added: " + si );
+                    if (si.isPurchased()) {
+                        shoppingItemList.add(si);
+                        Log.d(DEBUG_TAG, "ReviewJobLeadsActivity.onCreate(): added: " + si);
+                    }
                 }
                 Log.d( DEBUG_TAG, "ReviewJobLeadsActivity.onCreate(): setting recyclerAdapter" );
                 boolean alreadyAdded = false;
                 // Loop through shopping list, add prices
                 for (int i= 0; i < shoppingItemList.size(); i++) {
                     ShoppingItem currentItem = (ShoppingItem) shoppingItemList.get(i);
+                    alreadyAdded = false;
                     if (currentItem.isPurchased()) {
                         // If the ArrayList is empty, add the first user
                         if (users.size() == 0) {
                             users.add(currentItem.getPurchasedUser());
                             userPairs.add(new UserPair(currentItem.getPurchasedUser()));
-                        } else {
-                            for (int j = 0; j < users.size(); j++) {
+                            userPairs.get(i).addToCost(currentItem.getPrice());
+                            alreadyAdded = true;
+                            System.out.println("put first user");
+                        }
+                        else
+                            {
+                            for (int j = 0; j < users.size(); j++)
+                            {
                                 // Check to make sure that we haven't added to total for the user yet
-                                if (users.get(j) == currentItem.getPurchasedUser() && !alreadyAdded) {
+                                if (userPairs.get(j).getUser().equalsIgnoreCase(currentItem.getPurchasedUser()) && !alreadyAdded) {
                                     alreadyAdded = true;
                                     userPairs.get(j).addToCost(currentItem.getPrice());
+                                    System.out.println("added to user");
                                 }
                             }
                             // If the ArrayList didn't contain the user, add the user and add to their total
@@ -92,6 +102,7 @@ public class SettleTheCostFragment extends Fragment {
                                 users.add(currentItem.getPurchasedUser());
                                 userPairs.add(new UserPair(currentItem.getPurchasedUser()));
                                 userPairs.get(i).addToCost(currentItem.getPrice());
+                                System.out.println("added new user");
                             }
                         }
                     }
@@ -99,6 +110,7 @@ public class SettleTheCostFragment extends Fragment {
                 // Now, create a SettleTheCostAdapter to populate a RecyclerView to display the job leads.
                 recyclerAdapter = new SettleTheCostAdapter( userPairs );
                 recyclerView.setAdapter(recyclerAdapter);
+                //TODO: remove items from database
             }
 
             @Override

@@ -8,5 +8,8 @@
         android:title="@string/new_shopping_item"
         app:showAsAction="ifRoom|withText" />
 
-
+    <item
+        android:id="@+id/settle_the_cost"
+        android:title="@string/settle_up"
+        app:showAsAction="ifRoom|withText"/>
 </menu>
