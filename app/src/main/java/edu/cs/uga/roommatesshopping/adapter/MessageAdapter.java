@@ -16,29 +16,15 @@ import edu.cs.uga.roommatesshopping.databinding.ReceivedMsgBinding;
 import edu.cs.uga.roommatesshopping.databinding.SentMsgBinding;
 import edu.cs.uga.roommatesshopping.pojo.Message;
 
+/**
+ * Adapter class for messages
+ */
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHolder> {
 
     private static final String TAG = "MessageAdapter";
 
     private static final int MSG_SENT = 0;
     private static final int MSG_RECEIVED = 1;
-
-    static class MyViewHolder extends RecyclerView.ViewHolder {
-
-        SentMsgBinding sentMsgBinding;
-        ReceivedMsgBinding receivedMsgBinding;
-
-        MyViewHolder(SentMsgBinding binding) {
-            super(binding.getRoot());
-            sentMsgBinding = binding;
-        }
-
-        MyViewHolder(ReceivedMsgBinding binding) {
-            super(binding.getRoot());
-            receivedMsgBinding = binding;
-        }
-    }
-
     private ArrayList<Message> message;
 
     public MessageAdapter(ArrayList<Message> message) {
@@ -86,6 +72,22 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
     public int getItemCount() {
         Log.d(TAG, "getItemCount: " + message.size());
         return message.size();
+    }
+
+    static class MyViewHolder extends RecyclerView.ViewHolder {
+
+        SentMsgBinding sentMsgBinding;
+        ReceivedMsgBinding receivedMsgBinding;
+
+        MyViewHolder(SentMsgBinding binding) {
+            super(binding.getRoot());
+            sentMsgBinding = binding;
+        }
+
+        MyViewHolder(ReceivedMsgBinding binding) {
+            super(binding.getRoot());
+            receivedMsgBinding = binding;
+        }
     }
 
 }

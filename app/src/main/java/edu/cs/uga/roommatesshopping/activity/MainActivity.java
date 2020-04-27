@@ -13,12 +13,10 @@ import edu.cs.uga.roommatesshopping.databinding.ActivityMainBinding;
 // This class facilitates the Navigation component
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         NavController controller = Navigation.findNavController(this, R.id.nav_host_fragment);

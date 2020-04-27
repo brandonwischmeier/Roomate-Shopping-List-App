@@ -1,5 +1,6 @@
 package edu.cs.uga.roommatesshopping.adapter;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -11,21 +12,12 @@ import java.util.ArrayList;
 
 import edu.cs.uga.roommatesshopping.databinding.ListItemBinding;
 import edu.cs.uga.roommatesshopping.pojo.ShoppingItem;
-import edu.cs.uga.roommatesshopping.pojo.UserPair;
 
+/**
+ * Adapter for a purchased list
+ */
 public class PurchaseListAdapter extends RecyclerView.Adapter<PurchaseListAdapter.MyViewHolder> {
     private static final String TAG = "PurchaseListAdapter";
-
-    static class MyViewHolder extends RecyclerView.ViewHolder {
-
-        ListItemBinding listItemBinding;
-
-        MyViewHolder(ListItemBinding binding) {
-            super(binding.getRoot());
-            listItemBinding = binding;
-        }
-    }
-
     private ArrayList<ShoppingItem> shoppingItems;
 
     public PurchaseListAdapter(ArrayList<ShoppingItem> shoppingItems) {
@@ -43,9 +35,12 @@ public class PurchaseListAdapter extends RecyclerView.Adapter<PurchaseListAdapte
         Log.d(TAG, "onBindViewHolder: called");
         holder.setIsRecyclable(false);
         for (int i = 0; i < shoppingItems.size(); i++) {
-                String text = shoppingItems.get(position).getName() + " " + shoppingItems.get(position).getPrice();
-                System.out.println("adapter" + text);
-                holder.listItemBinding.shoppingListName.setText(text);
+            String text = shoppingItems.get(position).getName();
+            @SuppressLint("DefaultLocale") String price = String.format("$%,.2f", shoppingItems.get(position).getPrice());
+            System.out.println("adapter" + text);
+            holder.listItemBinding.shoppingListName.setText(text);
+            holder.listItemBinding.icon.setText(text.substring(0, 1));
+            holder.listItemBinding.price.setText(price);
         }
     }
 
@@ -53,5 +48,15 @@ public class PurchaseListAdapter extends RecyclerView.Adapter<PurchaseListAdapte
     public int getItemCount() {
         Log.d(TAG, "getItemCount: " + shoppingItems.size());
         return shoppingItems.size();
+    }
+
+    static class MyViewHolder extends RecyclerView.ViewHolder {
+
+        ListItemBinding listItemBinding;
+
+        MyViewHolder(ListItemBinding binding) {
+            super(binding.getRoot());
+            listItemBinding = binding;
+        }
     }
 }

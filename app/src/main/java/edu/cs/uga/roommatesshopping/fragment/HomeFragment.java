@@ -15,12 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,45 +41,53 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
     private ArrayList<ShoppingItem> shoppingItemList = new ArrayList<>();
     private NavController navController = null;
     private ShoppingListAdapter adapter;
-    String itemID;
+    private String itemID;
 
     public HomeFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        // inflate the layout
         binding = FragmentHomeBinding.inflate(inflater, container, false);
+
+        // get database reference
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("shoppingItems");
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        shoppingItemList = new ArrayList<ShoppingItem>();
+
+        // add listener
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                shoppingItemList.clear();
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    ShoppingItem si = postSnapshot.getValue(ShoppingItem.class);
-                    if(!si.isPurchased())
-                    {
+                    ShoppingItem shoppingItem = postSnapshot.getValue(ShoppingItem.class);
+                    assert shoppingItem != null;
+                    if (!shoppingItem.isPurchased()) {
                         itemID = postSnapshot.getKey();
-                        si.setItemID(itemID);
-                        shoppingItemList.add(si);
+                        shoppingItem.setItemID(itemID);
+                        shoppingItemList.add(shoppingItem);
                     }
                 }
+
                 adapter = new ShoppingListAdapter(shoppingItemList, new ShoppingListAdapter.OnListListener() {
                     @Override
                     public void onListClick(int position) {
                         Bundle args = new Bundle();
-
                         args.putInt("index", position);
                         args.putParcelableArrayList("list", shoppingItemList);
                         navController.navigate(R.id.action_homeFragment_to_costEntryFragment, args);
 
                     }
                 });
-                new ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.recyclerviewShoppingLists);
                 binding.recyclerviewShoppingLists.setAdapter(adapter);
             }
 
@@ -106,23 +110,14 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
         super.onViewCreated(view, savedInstanceState);
 
         // holds reference to navigation graph
-        // TODO: set listeners
         navController = Navigation.findNavController(view);
 
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        // TODO
-        if (item.getItemId() == R.id.new_shopping_list) {
-            navController.navigate(R.id.action_homeFragment_to_itemEntryFragment);
-        }
-        if (item.getItemId() == R.id.settle_the_cost)
-        {
-            navController.navigate(R.id.action_homeFragment_to_settleTheCostFragment);
-        }
-        return true;
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     @Override
@@ -132,17 +127,16 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+        if (item.getItemId() == R.id.new_shopping_list) {
+            navController.navigate(R.id.action_homeFragment_to_itemEntryFragment);
+        }
+        if (item.getItemId() == R.id.settle_the_cost) {
+            navController.navigate(R.id.action_homeFragment_to_settleTheCostFragment);
+        }
+        return true;
     }
-
 
     @Override
     public void onListClick(int position) {
@@ -150,30 +144,10 @@ public class HomeFragment extends Fragment implements ShoppingListAdapter.OnList
 
     }
 
-    /**
-     * Deletes items from the recyclerview and database with swiping to the left or right
-     */
-    private ItemTouchHelper.SimpleCallback itemTouchHelper =
-            new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
-                @Override
-                public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                    return false;
-                }
-
-                @Override
-                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                    // TODO: Remove shopping list from database
-                    shoppingItemList.remove(viewHolder.getAdapterPosition());
-                    adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-                }
-            };
 
     @Override
     public void onClick(View v) {
 
     }
 
-    public ArrayList<ShoppingItem> getShoppingItemList() {
-        return shoppingItemList;
-    }
 }

@@ -9,7 +9,8 @@ public class Message {
     private String text;
     private String name;
 
-    public Message () {}
+    public Message() {
+    }
 
     public Message(String userId, String text, String name) {
         this.userId = userId;
@@ -21,16 +22,8 @@ public class Message {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public String getText() {
         return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
     public String getName() {

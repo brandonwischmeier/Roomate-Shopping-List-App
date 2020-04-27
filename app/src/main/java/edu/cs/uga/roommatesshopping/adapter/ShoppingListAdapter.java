@@ -13,31 +13,14 @@ import java.util.ArrayList;
 import edu.cs.uga.roommatesshopping.databinding.ListItemBinding;
 import edu.cs.uga.roommatesshopping.pojo.ShoppingItem;
 
+/**
+ * Adapter for a shopping list
+ */
 public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapter.MyViewHolder> {
 
     private static final String TAG = "ShoppingListAdapter";
 
     private OnListListener onListListener;
-
-    static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        ListItemBinding listItemBinding;
-        OnListListener onListListener;
-
-        MyViewHolder(ListItemBinding binding, OnListListener onListListener) {
-            super(binding.getRoot());
-            listItemBinding = binding;
-            this.onListListener = onListListener;
-
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            onListListener.onListClick(getAdapterPosition());
-        }
-    }
-
     private ArrayList<ShoppingItem> shoppingListNames;
 
     public ShoppingListAdapter(ArrayList<ShoppingItem> shoppingListNames, OnListListener onListListener) {
@@ -59,6 +42,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
         for (int i = 0; i < shoppingListNames.size(); i++) {
             if (!shoppingListNames.get(position).isPurchased()) {
                 holder.listItemBinding.shoppingListName.setText(shoppingListNames.get(position).getName());
+                holder.listItemBinding.icon.setText(shoppingListNames.get(position).getName().substring(0, 1));
             }
         }
 
@@ -72,5 +56,24 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListAdapte
 
     public interface OnListListener {
         void onListClick(int position);
+    }
+
+    static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        ListItemBinding listItemBinding;
+        OnListListener onListListener;
+
+        MyViewHolder(ListItemBinding binding, OnListListener onListListener) {
+            super(binding.getRoot());
+            listItemBinding = binding;
+            this.onListListener = onListListener;
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onListListener.onListClick(getAdapterPosition());
+        }
     }
 }

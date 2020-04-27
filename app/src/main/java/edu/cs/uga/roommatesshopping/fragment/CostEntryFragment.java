@@ -1,5 +1,6 @@
 package edu.cs.uga.roommatesshopping.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,56 +26,61 @@ import java.util.Map;
 
 import edu.cs.uga.roommatesshopping.R;
 import edu.cs.uga.roommatesshopping.pojo.ShoppingItem;
-import edu.cs.uga.roommatesshopping.pojo.UserPair;
 
+/**
+ * Fragment to add the cost of an individual item
+ */
 public class CostEntryFragment extends Fragment {
 
-    private static final String TAG = "CostEntryFragment";
     private EditText editText;
-    private Button button;
     private ShoppingItem currentItem;
     private ArrayList<ShoppingItem> shoppingItemList;
+
 
     public CostEntryFragment() {
     }
 
-
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View v = inflater.inflate(R.layout.fragment_cost_entry, container, false);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference("shoppingItems");
+
+        assert getArguments() != null;
         shoppingItemList = getArguments().getParcelableArrayList("list");
         int index = getArguments().getInt("index");
-        //final String itemID = getArguments().getString("itemID");
-        myRef.addListenerForSingleValueEvent( new ValueEventListener() {
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
-            public void onDataChange( DataSnapshot snapshot ) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 // Once we have a DataSnapshot object, knowing that this is a list,
                 // we need to iterate over the elements and place them on a List.
-                for( DataSnapshot postSnapshot: snapshot.getChildren() ) {
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                     ShoppingItem si = postSnapshot.getValue(ShoppingItem.class);
                     shoppingItemList.add(si);
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 System.out.println("The read failed: " + databaseError.getMessage());
             }
-        } );
+        });
 
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         currentItem = shoppingItemList.get(index);
         final String itemID = currentItem.getItemID();
         editText = v.findViewById(R.id.cost);
         TextView textView = v.findViewById(R.id.textView3);
         textView.setText(currentItem.getName());
-        button = v.findViewById(R.id.enterBtn);
+        Button button = v.findViewById(R.id.enterBtn);
         button.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("DefaultLocale")
             @Override
             public void onClick(View v) {
 
@@ -83,8 +90,8 @@ public class CostEntryFragment extends Fragment {
                     currentItem.setPrice(price);
                     FirebaseAuth mAuth = FirebaseAuth.getInstance();
                     DatabaseReference hopperRef = myRef.child(itemID);
-                    //DatabaseReference hopperRef = childRef.child(currentItem.getName());
-                    DatabaseReference userUpdateRef = hopperRef.child("purchasedUser");
+
+
                     Map<String, Object> hopperUpdates = new HashMap<>();
                     hopperUpdates.put("price", currentItem.getPrice());
                     hopperUpdates.put("purchased", true);
@@ -92,10 +99,8 @@ public class CostEntryFragment extends Fragment {
                     try {
                         hopperRef.updateChildren(hopperUpdates);
                         Toast.makeText(getActivity(),
-                                "You've set the price to $" + price, Toast.LENGTH_SHORT).show();
-                    }
-                    catch(Exception e)
-                    {
+                                String.format("You've set the price to $%,.2f", price), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
                         System.out.println(e.getCause());
                     }
                 } else {
@@ -106,7 +111,6 @@ public class CostEntryFragment extends Fragment {
             }
         });
 
-        //currentItem.setPurchasedUser(new UserPair(mAuth.getCurrentUser()));
         return v;
     }
 

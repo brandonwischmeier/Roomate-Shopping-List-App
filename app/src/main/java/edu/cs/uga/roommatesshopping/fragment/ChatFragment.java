@@ -30,8 +30,6 @@ import edu.cs.uga.roommatesshopping.pojo.Message;
  */
 public class ChatFragment extends Fragment {
 
-    private static final String TAG = "ChatFragment";
-
     private DatabaseReference databaseReference;
     private FragmentChatBinding binding;
     private ArrayList<Message> messageArrayList = new ArrayList<>();
@@ -80,6 +78,24 @@ public class ChatFragment extends Fragment {
     }
 
     /*
+    Records message in the database
+     */
+    private void sendMessageToDb() {
+        // Pass in the contents of the EditText field and users display name to the message constructor
+        Message message = new Message(
+                getFirebaseUserId(),
+                binding.edittextChatbox.getText().toString(),
+                getFirebaseUserName());
+
+        if (!binding.edittextChatbox.getText().toString().trim().isEmpty()) {
+            databaseReference.push().setValue(message);
+        }
+
+        // Clear the text box after clicking send
+        binding.edittextChatbox.setText("");
+    }
+
+    /*
     Sets listener for chat fragment
      */
     private void setChatListener() {
@@ -101,24 +117,6 @@ public class ChatFragment extends Fragment {
             }
         };
         databaseReference.addValueEventListener(listener);
-    }
-
-    /*
-    Records message in the database
-     */
-    private void sendMessageToDb() {
-        // Pass in the contents of the EditText field and users display name to the message constructor
-        Message message = new Message(
-                getFirebaseUserId(),
-                binding.edittextChatbox.getText().toString(),
-                getFirebaseUserName());
-
-        if (!binding.edittextChatbox.getText().toString().trim().isEmpty()) {
-            databaseReference.push().setValue(message);
-        }
-
-        // Clear the text box after clicking send
-        binding.edittextChatbox.setText("");
     }
 
     /*

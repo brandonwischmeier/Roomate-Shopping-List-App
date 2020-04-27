@@ -3,34 +3,12 @@ package edu.cs.uga.roommatesshopping.pojo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.firebase.ui.auth.data.model.User;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * POJO representing a single shopping item
+ */
 public class ShoppingItem implements Parcelable {
-    private String name;
-    private double price;
-    private FirebaseUser enteredUser;
-    private String purchasedUser;
-    private String itemID;
-    private boolean purchased;
-
-    public ShoppingItem()
-    {}
-    public ShoppingItem(String name, double price, String purchasedUser, boolean purchased)
-    {
-        this.name = name;
-        this.price = price;
-        this.purchasedUser = purchasedUser;
-        this.purchased = purchased;
-    }
-
-    protected ShoppingItem(Parcel in) {
-        name = in.readString();
-        price = in.readDouble();
-        enteredUser = in.readParcelable(FirebaseUser.class.getClassLoader());
-        purchased = in.readByte() != 0;
-    }
-
     public static final Creator<ShoppingItem> CREATOR = new Creator<ShoppingItem>() {
         @Override
         public ShoppingItem createFromParcel(Parcel in) {
@@ -42,28 +20,58 @@ public class ShoppingItem implements Parcelable {
             return new ShoppingItem[size];
         }
     };
+    private String name;
+    private double price;
+    private FirebaseUser enteredUser;
+    private String purchasedUser;
+    private String itemID;
+    private boolean purchased;
 
-    public String getName()
-    {
+    public ShoppingItem() {
+    }
+
+    public ShoppingItem(String name, double price, String purchasedUser, boolean purchased) {
+        this.name = name;
+        this.price = price;
+        this.purchasedUser = purchasedUser;
+        this.purchased = purchased;
+    }
+
+    private ShoppingItem(Parcel in) {
+        name = in.readString();
+        price = in.readDouble();
+        enteredUser = in.readParcelable(FirebaseUser.class.getClassLoader());
+        purchased = in.readByte() != 0;
+    }
+
+    public String getName() {
         return name;
     }
-    public double getPrice()
-    {
+
+    public double getPrice() {
         return price;
     }
-    public String getPurchasedUser()
-    {
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getPurchasedUser() {
         return purchasedUser;
     }
-    public boolean isPurchased()
-    {
+
+    public boolean isPurchased() {
         return purchased;
     }
-    public void setPrice(double price){this.price = price;}
-    public void setPurchasedUser(String userPair){this.purchasedUser=userPair;}
-    public void setPurchased(){purchased = true;}
-    public String getItemID(){return itemID;}
-    public void setItemID(String itemID){this.itemID = itemID;}
+
+    public String getItemID() {
+        return itemID;
+    }
+
+    public void setItemID(String itemID) {
+        this.itemID = itemID;
+    }
+
     @Override
     public int describeContents() {
         return 0;

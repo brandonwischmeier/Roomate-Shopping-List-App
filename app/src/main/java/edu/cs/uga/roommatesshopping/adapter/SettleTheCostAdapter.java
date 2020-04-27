@@ -1,5 +1,6 @@
 package edu.cs.uga.roommatesshopping.adapter;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -12,20 +13,12 @@ import java.util.ArrayList;
 import edu.cs.uga.roommatesshopping.databinding.ListItemBinding;
 import edu.cs.uga.roommatesshopping.pojo.UserPair;
 
+/**
+ * Adapter for settle the cost
+ */
 public class SettleTheCostAdapter extends RecyclerView.Adapter<SettleTheCostAdapter.MyViewHolder> {
 
     private static final String TAG = "SettleTheCostAdapter";
-
-    static class MyViewHolder extends RecyclerView.ViewHolder {
-
-        ListItemBinding listItemBinding;
-
-        MyViewHolder(ListItemBinding binding) {
-            super(binding.getRoot());
-            listItemBinding = binding;
-        }
-    }
-
     private ArrayList<UserPair> users;
 
     public SettleTheCostAdapter(ArrayList<UserPair> users) {
@@ -40,14 +33,14 @@ public class SettleTheCostAdapter extends RecyclerView.Adapter<SettleTheCostAdap
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        // TODO
         Log.d(TAG, "onBindViewHolder: called");
         for (int i = 0; i < users.size(); i++) {
             String user = users.get(position).getUser();
-            double price = users.get(position).getCost();
-            String text = user+ " " + price;
-            System.out.println(text);
-            holder.listItemBinding.shoppingListName.setText(text);
+            @SuppressLint("DefaultLocale") String price = String.format("$%,.2f", users.get(position).getCost());
+
+            holder.listItemBinding.shoppingListName.setText(user);
+            holder.listItemBinding.icon.setText(user.substring(0, 1));
+            holder.listItemBinding.price.setText(price);
         }
     }
 
@@ -55,6 +48,16 @@ public class SettleTheCostAdapter extends RecyclerView.Adapter<SettleTheCostAdap
     public int getItemCount() {
         Log.d(TAG, "getItemCount: " + users.size());
         return users.size();
+    }
+
+    static class MyViewHolder extends RecyclerView.ViewHolder {
+
+        ListItemBinding listItemBinding;
+
+        MyViewHolder(ListItemBinding binding) {
+            super(binding.getRoot());
+            listItemBinding = binding;
+        }
     }
 
 }

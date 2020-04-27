@@ -17,6 +17,9 @@ import java.util.List;
 
 import edu.cs.uga.roommatesshopping.R;
 
+/**
+ * Provides login functionality
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private static final int SIGN_IN_REQUEST_CODE = 123;

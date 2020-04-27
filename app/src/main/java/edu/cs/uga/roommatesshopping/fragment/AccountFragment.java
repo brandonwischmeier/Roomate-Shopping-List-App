@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import edu.cs.uga.roommatesshopping.activity.LoginActivity;
 import edu.cs.uga.roommatesshopping.databinding.FragmentAccountBinding;
 
-
+/**
+ * Displays the sign out option
+ */
 public class AccountFragment extends Fragment {
 
     private FragmentAccountBinding binding;
@@ -44,6 +46,11 @@ public class AccountFragment extends Fragment {
         binding = null;
     }
 
+    /**
+     * Populates the adapter
+     *
+     * @return ArrayAdapter to be set in the list
+     */
     private ArrayAdapter<String> getAccountListAdapter() {
         ArrayList<String> accountList = new ArrayList<>();
         accountList.add("Sign out");
@@ -54,6 +61,10 @@ public class AccountFragment extends Fragment {
                 accountList
         );
     }
+
+    /**
+     * Sets the listener to sign out
+     */
     private void setSignOut() {
         binding.accountListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
