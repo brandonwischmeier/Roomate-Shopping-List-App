@@ -111,6 +111,14 @@ public class SettleTheCostFragment extends Fragment {
                 recyclerAdapter = new SettleTheCostAdapter( userPairs );
                 recyclerView.setAdapter(recyclerAdapter);
                 //TODO: remove items from database
+
+                for( DataSnapshot postSnapshot: snapshot.getChildren() ) {
+                    ShoppingItem si = postSnapshot.getValue(ShoppingItem.class);
+                    if (si.isPurchased()) {
+                        postSnapshot.getRef().removeValue();
+                        Log.d(DEBUG_TAG, "ReviewJobLeadsActivity.onCreate(): removed");
+                    }
+                }
             }
 
             @Override
